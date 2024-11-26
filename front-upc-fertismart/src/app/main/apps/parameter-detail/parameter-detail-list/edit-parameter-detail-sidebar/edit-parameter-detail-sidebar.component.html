@@ -1,0 +1,168 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade edit-parameter-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-edit-parameter modal-content pt-0" [formGroup]="editForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('edit-parameter-detail-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Editar sub-parámetro</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="edit-name">Nombre</label>
+              <input
+                type="text"
+                class="form-control dt-name"
+                id="edit-name"
+                name="edit-name"
+                formControlName="name"
+                placeholder="Ingresa el nombre..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('name') }"
+              />
+              <span *ngIf="errorHandlingForm('name')" class="invalid-form">
+                <small 
+                  *ngIf="errorHandlingFormValidator('name', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-code">Código</label>
+              <input
+                type="text"
+                class="form-control dt-code"
+                id="edit-code"
+                name="edit-code"
+                formControlName="code"
+                placeholder="Ingresa código único.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('code') }"
+              />
+              <span *ngIf="errorHandlingForm('code')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('code', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-numeric-value">Valor numérico</label>
+              <input
+                type="number"
+                class="form-control dt-code"
+                id="edit-numeric-value"
+                name="edit-numeric-value"
+                formControlName="numeric_value"
+                placeholder="Ingresa número.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('numeric_value') }"
+              />
+              <span *ngIf="errorHandlingForm('numeric_value')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('numeric_value', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-string-value">Valor texto corto</label>
+              <input
+                type="text"
+                class="form-control dt-code"
+                id="edit-string-value"
+                name="edit-string-value"
+                formControlName="string_value"
+                placeholder="Ingresa texto corto.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('string_value') }"
+              />
+              <span *ngIf="errorHandlingForm('string_value')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('string_value', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-long-string-value">Valor texto largo</label>
+              <fieldset class="form-label-group mb-0">
+                <textarea 
+                  [maxlength]="300" 
+                  class="form-control char-textarea" 
+                  id="edit-long-string-value" 
+                  rows="3"
+                  formControlName="long_string_value"
+                  placeholder="Ingresa texto largo.."
+                  [ngClass]="{ 'is-invalid': errorHandlingForm('long_string_value') }">
+                </textarea>
+              </fieldset>
+              <small class="textarea-counter-value float-right"
+                ><span *ngIf="longStringControl" class="char-count">{{ longStringControl.value && longStringControl.value.length }}</span>
+                <span *ngIf="!longStringControl" class="char-count">0 </span> / 300
+              </small>
+              <span *ngIf="errorHandlingForm('long_string_value')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('long_string_value', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-order">Orden</label>
+              <input
+                type="number"
+                class="form-control dt-order"
+                id="edit-order"
+                name="edit-order"
+                formControlName="order"
+                placeholder="Ingresa número.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('order') }"
+              />
+              <span *ngIf="errorHandlingForm('order')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('order', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group my-2">
+              <div class="custom-control custom-switch custom-control-inline">
+                <input 
+                  type="checkbox" 
+                  class="custom-control-input" 
+                  id="edit-active" 
+                  formControlName="active"/>
+                <label class="custom-control-label" for="edit-active">Estado del parámetro</label>
+              </div>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="editForm.invalid"
+            (click)="onSubmitEdit()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('edit-parameter-detail-sidebar')"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

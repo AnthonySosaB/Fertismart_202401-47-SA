@@ -1,0 +1,115 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade new-fertilizante-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-new-fertilizante modal-content pt-0" [formGroup]="registerForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-fertilizante-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo fertilizante</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="edit-name">Nombre</label>
+              <input
+                type="text"
+                class="form-control dt-name"
+                id="edit-name"
+                name="edit-name"
+                formControlName="nombre_fertilizante"
+                placeholder="Ingresa el nombre..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('nombre_fertilizante') }"
+              />
+              <span *ngIf="errorHandlingForm('nombre_fertilizante')" class="invalid-form">
+                <small 
+                  *ngIf="errorHandlingFormValidator('nombre_fertilizante', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-composicion">Composición</label>
+              <input
+                type="text"
+                class="form-control dt-composicion"
+                id="edit-composicion"
+                name="edit-composicion"
+                formControlName="composicion"
+                placeholder="Ingresa composición.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('composicion') }"
+              />
+              <span *ngIf="errorHandlingForm('composicion')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('composicion', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-precio">Precio</label>
+              <input
+                type="number"
+                class="form-control dt-precio"
+                id="new-precio"
+                name="new-precio"
+                formControlName="precio"
+                placeholder="Ingresa número.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('precio') }"
+              />
+              <span *ngIf="errorHandlingForm('precio')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('precio', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-codigo_codificado">Codificador</label>
+              <input
+                type="number"
+                class="form-control dt-codigo_codificado"
+                id="new-codigo_codificado"
+                name="new-codigo_codificado"
+                formControlName="codigo_codificado"
+                placeholder="Ingresa codificador.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('codigo_codificado') }"
+              />
+              <span *ngIf="errorHandlingForm('codigo_codificado')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('codigo_codificado', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="registerForm.invalid"
+            (click)="onSubmitAdd()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

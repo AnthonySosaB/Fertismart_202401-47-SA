@@ -1,0 +1,95 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade rejected-recomendacion-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="rejected-recomendacion modal-content pt-0" [formGroup]="rejectedForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('rejected-recomendacion-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Rechazar recomendación</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-dosis">Dosis</label>
+              <input
+                type="text"
+                class="form-control dt-dosis"
+                id="new-dosis"
+                name="new-dosis"
+                formControlName="dosis"
+                placeholder="Ingresa valor de la dosis..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('dosis') }"
+              />
+              <span *ngIf="errorHandlingForm('dosis')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('dosis', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-fecha_aplicacion">Fecha</label>
+              <input
+                class="form-control"
+                id="new-fecha_aplicacion"
+                name="new-fecha_aplicacion"
+                formControlName="fecha_aplicacion"
+                placeholder="DD/MM/AAAA" 
+                mask="00/00/0000" 
+                [ngClass]="{ 'is-invalid': errorHandlingForm('fecha_aplicacion') }"
+              />
+              <span *ngIf="errorHandlingForm('fecha_aplicacion')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('fecha_aplicacion', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-motivo_fallo">Motivo de fallo</label>
+              <input
+                type="text"
+                class="form-control dt-motivo_fallo"
+                id="new-motivo_fallo"
+                name="new-motivo_fallo"
+                formControlName="motivo_fallo"
+                placeholder="Ingresa el motivo del fallo..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('motivo_fallo') }"
+              />
+              <span *ngIf="errorHandlingForm('motivo_fallo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('motivo_fallo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="rejectedForm.invalid"
+            (click)="onSubmitRejected()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

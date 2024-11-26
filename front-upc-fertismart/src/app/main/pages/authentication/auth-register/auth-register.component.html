@@ -1,0 +1,147 @@
+<div class="auth-wrapper auth-v1 px-2">
+  <div class="auth-inner py-2">
+    <!-- Register v1 -->
+    <div class="card mb-0">
+      <div class="card-body">
+        <a href="javascript:void(0);" class="brand-logo">
+          <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+          <h2 class="brand-text text-primary ml-1">{{ coreConfig.app.appName }}</h2>
+        </a>
+
+        <p class="card-text mb-2">Que tu gestión sea ágil e inteligente! 🚀</p>
+
+        <form class="auth-register-form mt-2" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="register-names" class="form-label">Nombres</label>
+            <input
+              type="text"
+              formControlName="names"
+              class="form-control"
+              placeholder="Ingrese nombres..."
+              aria-describedby="register-names"
+              tabindex="1"
+              autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.names.errors }"
+            />
+            <div *ngIf="submitted && f.names.errors" class="invalid-feedback">
+              <div *ngIf="f.names.errors.required">Campo es requerido</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-father_last_name" class="form-label">Apellido Peterno</label>
+            <input
+              type="text"
+              formControlName="father_last_name"
+              class="form-control"
+              placeholder="Ingrese apellidos..."
+              aria-describedby="register-father_last_name"
+              tabindex="1"
+              autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.father_last_name.errors }"
+            />
+            <div *ngIf="submitted && f.father_last_name.errors" class="invalid-feedback">
+              <div *ngIf="f.father_last_name.errors.required">Campo es requerido</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-mother_last_name" class="form-label">Apellido Materno</label>
+            <input
+              type="text"
+              formControlName="mother_last_name"
+              class="form-control"
+              placeholder="Ingrese apellidos..."
+              aria-describedby="register-mother_last_name"
+              tabindex="1"
+              autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.mother_last_name.errors }"
+            />
+            <div *ngIf="submitted && f.mother_last_name.errors" class="invalid-feedback">
+              <div *ngIf="f.mother_last_name.errors.required">Campo es requerido</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-num_document" class="form-label">Documento de Identidad (DNI)</label>
+            <input
+              type="text"
+              formControlName="num_document"
+              class="form-control"
+              placeholder="Ingrese DNI..."
+              aria-describedby="register-num_document"
+              tabindex="1"
+              autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.num_document.errors }"
+            />
+            <div *ngIf="submitted && f.num_document.errors" class="invalid-feedback">
+              <div *ngIf="f.num_document.errors.required">Campo es requerido</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-telephone" class="form-label">Teléfono</label>
+            <input
+              type="text"
+              formControlName="telephone"
+              class="form-control"
+              placeholder="Ingrese teléfono..."
+              aria-describedby="register-telephone"
+              tabindex="1"
+              autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.telephone.errors }"
+            />
+            <div *ngIf="submitted && f.telephone.errors" class="invalid-feedback">
+              <div *ngIf="f.telephone.errors.required">Campo es requerido</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-email" class="form-label">Correo electrónico</label>
+            <input
+              type="text"
+              formControlName="email"
+              class="form-control"
+              placeholder="correo@ejemplo.com"
+              aria-describedby="register-email"
+              tabindex="2"
+              [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+            />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Correo es requerido</div>
+              <div *ngIf="f.email.errors.email">El correo electrónico debe ser una dirección válida</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-username" class="form-label">Usuario</label>
+            <input
+              type="text"
+              formControlName="username"
+              class="form-control"
+              placeholder="usuario"
+              aria-describedby="register-username"
+              tabindex="1"
+              autofocus
+              disabled
+              [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+            />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">Username is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input" type="checkbox" id="register-privacy-policy" tabindex="4" />
+              <label class="custom-control-label" for="register-privacy-policy">
+                Acepto <a href="javascript:void(0);">términos de privacidad</a>
+              </label>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" tabindex="5" rippleEffect>Registrar</button>
+        </form>
+
+        <p class="text-center mt-2">
+          <span>¿Tienes una cuenta?</span>
+          <a routerLink="/pages/authentication/login">
+            <span> Iniciar sesión</span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

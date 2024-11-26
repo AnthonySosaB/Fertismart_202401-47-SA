@@ -1,0 +1,170 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade new-parameter-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-new-parameter modal-content pt-0" [formGroup]="registerForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-parameter-detail-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo sub-parámetro</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="new-name">Nombre</label>
+              <input
+                type="text"
+                class="form-control dt-name"
+                id="new-name"
+                name="new-name"
+                formControlName="name"
+                placeholder="Ingresa el nombre..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('name') }"
+              />
+              <span *ngIf="errorHandlingForm('name')" class="invalid-form">
+                <small 
+                  *ngIf="errorHandlingFormValidator('name', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-code">Código</label>
+              <input
+                type="text"
+                class="form-control dt-code"
+                id="new-code"
+                name="new-code"
+                formControlName="code"
+                placeholder="Ingresa código único.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('code') }"
+              />
+              <span *ngIf="errorHandlingForm('code')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('code', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-numeric-value">Valor numérico</label>
+              <input
+                type="number"
+                class="form-control dt-code"
+                id="new-numeric-value"
+                name="new-numeric-value"
+                formControlName="numeric_value"
+                placeholder="Ingresa número.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('numeric_value') }"
+              />
+              <span *ngIf="errorHandlingForm('numeric_value')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('numeric_value', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-string-value">Valor texto corto</label>
+              <input
+                type="text"
+                class="form-control dt-code"
+                id="new-string-value"
+                name="new-string-value"
+                formControlName="string_value"
+                placeholder="Ingresa texto corto.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('string_value') }"
+              />
+              <span *ngIf="errorHandlingForm('string_value')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('string_value', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-long-string-value">Valor texto largo</label>
+              <fieldset class="form-label-group mb-0">
+                <textarea 
+                  [maxlength]="300" 
+                  class="form-control char-textarea" 
+                  id="new-long-string-value"
+                  name="new-long-string-value"
+                  rows="3"
+                  formControlName="long_string_value"
+                  placeholder="Ingresa texto largo.."
+                  [ngClass]="{ 'is-invalid': errorHandlingForm('long_string_value') }">
+                </textarea>
+              </fieldset>
+              <small class="textarea-counter-value float-right"
+                ><span *ngIf="longStringControl" class="char-count">{{ longStringControl.value && longStringControl.value.length }}</span>
+                <span *ngIf="!longStringControl" class="char-count">0 </span> / 300
+              </small>
+              <span *ngIf="errorHandlingForm('long_string_value')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('long_string_value', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-order">Orden</label>
+              <input
+                type="number"
+                class="form-control dt-order"
+                id="new-order"
+                name="new-order"
+                formControlName="order"
+                placeholder="Ingresa número.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('order') }"
+              />
+              <span *ngIf="errorHandlingForm('order')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('order', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group my-2">
+              <div class="custom-control custom-switch custom-control-inline">
+                <input 
+                  type="checkbox" 
+                  class="custom-control-input" 
+                  id="new-active" 
+                  formControlName="active"/>
+                <label class="custom-control-label" for="new-active">Estado del parámetro</label>
+              </div>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="registerForm.invalid"
+            (click)="onSubmitAdd()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

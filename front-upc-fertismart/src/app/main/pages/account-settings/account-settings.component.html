@@ -1,0 +1,389 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+    <section id="page-account-settings">
+      <div class="row nav-vertical d-flex">
+        <div class="col-md-3 mb-2 mb-md-0">
+          <ul ngbNav #navVertical="ngbNav" class="nav nav-pills flex-column nav-left">
+            <li class="nav-item" ngbNavItem>
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="account-pill-general"
+                data-toggle="pill"
+                href="#account-vertical-general"
+                aria-expanded="true"
+              >
+                <i data-feather="user" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">General</span>
+              </a>
+              <ng-template ngbNavContent>
+                <div class="card">
+                  <div class="card-body">
+                    <!-- form -->
+                    <form class="validate-form" [formGroup]="accountSettingsForm">
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-username">Usuario</label>
+                            <input
+                              type="text"
+                              formControlName="username"
+                              class="form-control"
+                              id="account-username"
+                              name="username"
+                              placeholder="Ingresa usuario..."
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-names">Nombres</label>
+                            <input
+                              type="text"
+                              formControlName="names"
+                              class="form-control"
+                              id="account-names"
+                              name="names"
+                              placeholder="Ingresa nombres..."
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-father_last_name">Apellido Paterno</label>
+                            <input
+                              type="text"
+                              formControlName="father_last_name"
+                              class="form-control"
+                              id="account-father_last_name"
+                              name="father_last_name"
+                              placeholder="Ingresa apellido paterno..."
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-mother_last_name">Apellido Materno</label>
+                            <input
+                              type="text"
+                              formControlName="mother_last_name"
+                              class="form-control"
+                              id="account-mother_last_name"
+                              name="mother_last_name"
+                              placeholder="Ingresa apellido materno..."
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-email">Correo electrónico</label>
+                            <input
+                              type="email"
+                              formControlName="email"
+                              class="form-control"
+                              id="account-email"
+                              name="email"
+                              placeholder="Ingresa correo..."
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-num_document">Documento de Identidad (DNI)</label>
+                            <input
+                              type="text"
+                              formControlName="num_document"
+                              class="form-control"
+                              id="account-num_document"
+                              name="num_document"
+                              placeholder="Ingresa DNI..."
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-company">Dirección</label>
+                            <input
+                              type="text"
+                              formControlName="address"
+                              class="form-control"
+                              id="account-company"
+                              name="company"
+                              placeholder="Ingresa dirección..."
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-company">Teléfono</label>
+                            <input
+                              type="text"
+                              formControlName="telephone"
+                              class="form-control"
+                              id="account-company"
+                              name="company"
+                              placeholder="Ingresa teléfono..."
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <button class="btn btn-primary mt-2 mr-1" rippleEffect (click)="onSubmitAccountSettings()">Guardar cambios</button>
+                        </div>
+                      </div>
+                    </form>
+                    <!--/ form -->
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+
+            <li class="nav-item" ngbNavItem>
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="account-pill-password"
+                data-toggle="pill"
+                href="#account-vertical-password"
+                aria-expanded="false"
+              >
+                <i data-feather="lock" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">Cambiar Contraseña</span>
+              </a>
+              <ng-template ngbNavContent>
+                <div class="card">
+                  <div class="card-body">
+                    <form class="validate-form" [formGroup]="changePasswordForm">
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-old-password">Contraseña anterior</label>
+                            <div class="input-group form-password-toggle input-group-merge">
+                              <input
+                                [type]="passwordTextTypeOld ? 'text' : 'password'"
+                                class="form-control"
+                                id="account-old-password"
+                                name="password"
+                                placeholder="Contraseña anterior"
+                                formControlName="password"
+                                [ngClass]="{ 'is-invalid': errorHandlingForm('password') }"
+                              />
+                              <div class="input-group-append">
+                                <span class="input-group-text cursor-pointer"
+                                  ><i
+                                    class="feather font-small-4"
+                                    [ngClass]="{
+                                      'icon-eye-off': passwordTextTypeOld,
+                                      'icon-eye': !passwordTextTypeOld
+                                    }"
+                                    (click)="togglePasswordTextTypeOld()"
+                                  ></i
+                                ></span>
+                              </div>
+                              <span *ngIf="errorHandlingForm('password')" class="invalid-form">
+                                <small 
+                                  *ngIf="errorHandlingFormValidator('password', 'required')"
+                                  class="form-text text-danger">
+                                  Este campo es requerido!
+                                </small>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-new-password">Contraseña nueva</label>
+                            <div class="input-group form-password-toggle input-group-merge">
+                              <input
+                                [type]="passwordTextTypeNew ? 'text' : 'password'"
+                                id="account-new-password"
+                                name="new-password"
+                                class="form-control"
+                                placeholder="Contraseña nueva"
+                                formControlName="new_password"
+                                [ngClass]="{ 'is-invalid': errorHandlingForm('new_password') }"
+                              />
+                              <div class="input-group-append">
+                                <span class="input-group-text cursor-pointer"
+                                  ><i
+                                    class="feather font-small-4"
+                                    [ngClass]="{
+                                      'icon-eye-off': passwordTextTypeNew,
+                                      'icon-eye': !passwordTextTypeNew
+                                    }"
+                                    (click)="togglePasswordTextTypeNew()"
+                                  ></i
+                                ></span>
+                              </div>
+                              <span *ngIf="errorHandlingForm('new_password')" class="invalid-form">
+                                <small 
+                                  *ngIf="errorHandlingFormValidator('new_password', 'required')"
+                                  class="form-text text-danger">
+                                  Este campo es requerido!
+                                </small>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-retype-new-password">Confirma contraseña nueva</label>
+                            <div class="input-group form-password-toggle input-group-merge">
+                              <input
+                                [type]="passwordTextTypeRetype ? 'text' : 'password'"
+                                class="form-control"
+                                id="account-retype-new-password"
+                                name="confirm-new-password"
+                                placeholder="Contraseña nueva"
+                                formControlName="new_password_confirm"
+                                [ngClass]="{ 'is-invalid': errorHandlingForm('new_password_confirm') }"
+                              />
+                              <div class="input-group-append">
+                                <span class="input-group-text cursor-pointer"
+                                  ><i
+                                    class="feather font-small-4"
+                                    [ngClass]="{
+                                      'icon-eye-off': passwordTextTypeRetype,
+                                      'icon-eye': !passwordTextTypeRetype
+                                    }"
+                                    (click)="togglePasswordTextTypeRetype()"
+                                  ></i
+                                ></span>
+                              </div>
+                              <span *ngIf="errorHandlingForm('new_password_confirm')" class="invalid-form">
+                                <small 
+                                  *ngIf="errorHandlingFormValidator('new_password_confirm', 'required')"
+                                  class="form-text text-danger">
+                                  Este campo es requerido!
+                                </small>
+                              </span>
+                              <span *ngIf="errorHandlingForm('new_password_confirm')" class="invalid-form">
+                                <small 
+                                  *ngIf="errorHandlingFormValidator('new_password_confirm', 'mismatch')"
+                                  class="form-text text-danger">
+                                  Las contraseñas no coinciden!
+                                </small>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-primary mr-1 mt-1" rippleEffect>Guardar</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+
+            <!-- <li class="nav-item" ngbNavItem>
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="account-pill-notifications"
+                data-toggle="pill"
+                href="#account-vertical-notifications"
+                aria-expanded="false"
+              >
+                <i data-feather="bell" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">Notificaciones</span>
+              </a>
+              <ng-template ngbNavContent>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <h6 class="section-label mx-1 mb-2">Activity</h6>
+                      <div class="col-12 mb-2">
+                        <div class="custom-control custom-switch">
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="data.accountSetting.notification.commentOnArticle"
+                            id="accountSwitch1"
+                          />
+                          <label class="custom-control-label" for="accountSwitch1">
+                            Email me when someone comments onmy article
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-12 mb-2">
+                        <div class="custom-control custom-switch">
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="data.accountSetting.notification.AnswerOnForm"
+                            id="accountSwitch2"
+                          />
+                          <label class="custom-control-label" for="accountSwitch2">
+                            Email me when someone answers on my form
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-12 mb-2">
+                        <div class="custom-control custom-switch">
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="data.accountSetting.notification.followMe"
+                            id="accountSwitch3"
+                          />
+                          <label class="custom-control-label" for="accountSwitch3"
+                            >Email me hen someone follows me</label
+                          >
+                        </div>
+                      </div>
+                      <h6 class="section-label mx-1 mt-2">Application</h6>
+                      <div class="col-12 mt-1 mb-2">
+                        <div class="custom-control custom-switch">
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="data.accountSetting.notification.newAnnouncements"
+                            id="accountSwitch4"
+                          />
+                          <label class="custom-control-label" for="accountSwitch4">News and announcements</label>
+                        </div>
+                      </div>
+                      <div class="col-12 mb-2">
+                        <div class="custom-control custom-switch">
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="data.accountSetting.notification.productUpdates"
+                            id="accountSwitch6"
+                          />
+                          <label class="custom-control-label" for="accountSwitch6">Weekly product updates</label>
+                        </div>
+                      </div>
+                      <div class="col-12 mb-75">
+                        <div class="custom-control custom-switch">
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            [checked]="data.accountSetting.notification.blogDigest"
+                            id="accountSwitch5"
+                          />
+                          <label class="custom-control-label" for="accountSwitch5">Weekly blog digest</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <button type="submit" class="btn btn-primary mt-2 mr-1" rippleEffect>Save changes</button>
+                        <button type="reset" class="btn btn-outline-secondary mt-2" rippleEffect>Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li> -->
+          </ul>
+        </div>
+        <div [ngbNavOutlet]="navVertical" class="col-12 col-md-9"></div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade edit-variedad-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-edit-variedad modal-content pt-0" [formGroup]="editForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('edit-variedad-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Editar variedad</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="edit-nombre_variedad">Nombre</label>
+              <input
+                type="text"
+                class="form-control dt-nombre_variedad"
+                id="edit-nombre_variedad"
+                name="edit-nombre_variedad"
+                formControlName="nombre_variedad"
+                placeholder="Ingresa el nombre..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('nombre_variedad') }"
+              />
+              <span *ngIf="errorHandlingForm('nombre_variedad')" class="invalid-form">
+                <small 
+                  *ngIf="errorHandlingFormValidator('nombre_variedad', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-siglas_variedad">Siglas</label>
+              <input
+                type="text"
+                class="form-control dt-siglas_variedad"
+                id="edit-siglas_variedad"
+                name="edit-siglas_variedad"
+                formControlName="siglas_variedad"
+                placeholder="Ingresa siglas.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('siglas_variedad') }"
+              />
+              <span *ngIf="errorHandlingForm('siglas_variedad')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('siglas_variedad', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="editForm.invalid"
+            (click)="onSubmitEdit()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

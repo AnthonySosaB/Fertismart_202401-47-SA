@@ -1,0 +1,77 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade edit-tipo-gasto-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-edit-tipo-gasto modal-content pt-0" [formGroup]="editForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('edit-tipo-gasto-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Editar tipo de costo</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="edit-nombre_tipo_gasto">Nombre</label>
+              <input
+                type="text"
+                class="form-control dt-nombre_tipo_gasto"
+                id="edit-nombre_tipo_gasto"
+                name="edit-nombre_tipo_gasto"
+                formControlName="nombre_tipo_gasto"
+                placeholder="Ingresa el nombre..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('nombre_tipo_gasto') }"
+              />
+              <span *ngIf="errorHandlingForm('nombre_tipo_gasto')" class="invalid-form">
+                <small 
+                  *ngIf="errorHandlingFormValidator('nombre_tipo_gasto', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-siglas_tipo_gasto">Siglas</label>
+              <input
+                type="text"
+                class="form-control dt-siglas_tipo_gasto"
+                id="edit-siglas_tipo_gasto"
+                name="edit-siglas_tipo_gasto"
+                formControlName="siglas_tipo_gasto"
+                placeholder="Ingresa siglas..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('siglas_tipo_gasto') }"
+              />
+              <span *ngIf="errorHandlingForm('siglas_tipo_gasto')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('siglas_tipo_gasto', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="editForm.invalid"
+            (click)="onSubmitEdit()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

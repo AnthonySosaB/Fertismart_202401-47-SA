@@ -1,0 +1,280 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <div class="row d-flex justify-content-between">
+      <div class="col-lg-8 col-md-6 col-12">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+      </div>
+      <div class="mr-1">
+        <button type="button" class="btn btn-primary" rippleEffect rippleEffect (click)="onAddRecomendacion('new-recomendacion-sidebar')">Generar recomendación</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-12" *ngFor="let item of threeSuggestions">
+        <div class="card card-app-design">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <div class="badge badge-light-primary">{{ item.fecha | date:'dd MMM, yy' }}</div>
+              <div class="badge badge-pill"
+                [ngClass]="{
+                  'badge-light-secondary': item.estado_recomendacion == 'En proceso',
+                  'badge-light-success': item.estado_recomendacion == 'Completada',
+                  'badge-light-danger': item.estado_recomendacion == 'Rechazada'
+                }"
+              >
+                {{item.estado_recomendacion}}
+              </div>
+            </div>
+            <h4 class="card-title mt-1 mb-75">{{ item.get_nombre_fertilizante }}</h4>
+            <p class="card-text font-small-2 mb-2">
+              {{ item.observacion }}
+            </p>
+            <div class="design-group">
+              <h6 class="section-label">Campo</h6>
+              <div class="badge badge-light-secondary">{{ item.get_nombre_campo }}</div>
+            </div>
+            <div class="design-group">
+              <h6 class="section-label">Indicadores</h6>
+              <ng-template #toolFosforo>
+                <span class="font-weight-bold">Fosforo:</span> {{ item.fosforo }}<br/>
+              </ng-template>
+              <div class="avatar bg-light-warning" placement="top" [ngbTooltip]="toolFosforo">
+                <div class="avatar-content">P</div>              
+              </div>
+
+              <ng-template #toolHumedadSuelo>
+                <span class="font-weight-bold">Humedad suelo:</span> {{ item.humedad_suelo }}<br/>
+              </ng-template>
+              <div class="avatar bg-light-info" placement="top" [ngbTooltip]="toolHumedadSuelo">
+                <div class="avatar-content">HS</div>
+              </div>
+
+              <ng-template #toolHumedadAire>
+                <span class="font-weight-bold">Humedad aire:</span> {{ item.humedad_aire }}<br/>
+              </ng-template>
+              <div class="avatar bg-light-info" placement="top" [ngbTooltip]="toolHumedadAire">
+                <div class="avatar-content">HA</div>
+              </div>
+
+              <ng-template #toolNitrogeno>
+                <span class="font-weight-bold">Nitrogeno:</span> {{ item.nitrogeno }}<br/>
+              </ng-template>
+              <div class="avatar bg-light-danger" placement="top" [ngbTooltip]="toolNitrogeno">
+                <div class="avatar-content">N</div>
+              </div>
+
+              <ng-template #toolPotasio>
+                <span class="font-weight-bold">Potasio:</span> {{ item.potasio }}<br/>
+              </ng-template>
+              <div class="avatar bg-light-secondary" placement="top" [ngbTooltip]="toolPotasio">
+                <div class="avatar-content">K</div>
+              </div>
+
+              <ng-template #toolTemperatura>
+                <span class="font-weight-bold">Temperatura:</span> {{ item.temperatura }}<br/>
+              </ng-template>
+              <div class="avatar bg-light-info" placement="top" [ngbTooltip]="toolTemperatura">
+                <div class="avatar-content">T</div>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-between" *ngIf="item.estado_recomendacion == 'En proceso'">
+              <div class="col-5">
+                <button
+                  (click)="onCompletedRecomendacion('completed-recomendacion-sidebar', item)"
+                  type="button" 
+                  class="btn btn-outline-success btn-block" 
+                  rippleEffect>Completar</button>
+              </div>
+              <div class="col-5" >
+                <button 
+                  (click)="onRejectedRecomendacion('rejected-recomendacion-sidebar', item)"
+                  type="button" 
+                  class="btn btn-outline-danger btn-block" 
+                  rippleEffect>Rechazar</button>
+              </div>
+              <div class="col-2" >
+                <ng-template #toolSend>
+                  <span class="font-weight-bold">Enviar cotización</span>
+                </ng-template>
+                <button type="button" 
+                  class="btn btn-icon btn-outline-primary"
+                  (click)="onOpenSendQuoteModal(item.id)"
+                  placement="top" 
+                  [ngbTooltip]="toolSend" 
+                  rippleEffect>
+                  <span [data-feather]="'send'"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <section class="invoice-list-wrapper">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <div class="d-flex align-items-center">
+                <label class="d-flex align-items-center"
+                  >Mostrar
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div
+            class="
+              col-md-6 col-12
+              d-flex
+              justify-content-start justify-content-md-end
+            "
+          >
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+
+                <label class="d-flex align-items-center mb-0 ml-1 ml-md-0"
+                  ><input
+                    [(ngModel)]="searchValue"
+                    name="searchValue"
+                    type="search"
+                    class="form-control"
+                    placeholder="Buscar..."
+                    (keyup)="filterUpdate($event)"
+                    (search)="filterUpdate($event)"
+                /></label>
+
+
+                <fieldset class="form-group mb-0 ml-1">
+                  <ng-select
+                    [items]="optionsStatus"
+                    [(ngModel)]="selectedStatus"
+                    bindLabel="name"
+                    placeholder="Seleccionar Estado"
+                    (change)="filterByStatus($event)"
+                  ></ng-select>
+                </fieldset>
+            </div>
+          </div>
+        </div>
+
+        <ngx-datatable
+          [rows]="rows"
+          [rowHeight]="50"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+          <ngx-datatable-column name="Nro." prop="id" [width]="20">
+            <ng-template let-id="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">#{{ id }}</span> 
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Estado" prop="estado_recomendacion" [width]="50">
+            <ng-template let-row="row" let-status="value" ngx-datatable-cell-template>
+              <div
+                class="avatar avatar-status"
+                [ngClass]="{
+                  'bg-light-secondary': row.estado_recomendacion == 'Pendiente',
+                  'bg-light-info': row.estado_recomendacion == 'En proceso',
+                  'bg-light-success': row.estado_recomendacion == 'Completada',
+                  'bg-light-danger': row.estado_recomendacion == 'Rechazada'
+                }"
+              >
+                <ng-template #tipContent>
+                  <span>{{ row.estado_recomendacion.toUpperCase() }}<br/>
+                    <span class="font-weight-bold">Nitrogeno:</span> {{ row.nitrogeno }}<br/>
+                    <span class="font-weight-bold">Fosforo:</span> {{ row.fosforo }}<br/>
+                    <span class="font-weight-bold">Humedad suelo:</span> {{ row.humedad_suelo }}<br/>
+                    <span class="font-weight-bold">Humedad aire:</span> {{ row.humedad_aire }}<br/>
+                    <span class="font-weight-bold">Temperatura:</span> {{ row.temperatura }}<br/>
+                    <span class="font-weight-bold">Potasio:</span> {{ row.potasio }}<br/>
+                  </span>
+                </ng-template>
+                <span class="avatar-content" placement="top" [ngbTooltip]="tipContent" container="body">
+                  <i
+                    class="feather avatar-icon font-medium-1"
+                    [ngClass]="{
+                      'icon-clock': row.estado_recomendacion == 'Pendiente',
+                      'icon-send': row.estado_recomendacion == 'En proceso',
+                      'icon-check-circle': row.estado_recomendacion == 'Completada',
+                      'icon-x-circle': row.estado_recomendacion == 'Rechazada'
+                    }"
+                  ></i
+                ></span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Campo" prop="get_nombre_campo" [width]="250">
+            <ng-template let-campo="value" ngx-datatable-cell-template>
+              <div>
+                {{ campo }}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Fertilizante" prop="get_nombre_fertilizante" [width]="100">
+            <ng-template let-fertilizante="value" ngx-datatable-cell-template>
+              <div class="badge badge-pill badge-light-primary">
+                {{ fertilizante }}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Fecha" prop="fecha">
+            <ng-template let-fecha="value" ngx-datatable-cell-template>
+              <div>
+                {{ fecha | date:'dd MMM, yy'  }}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Acciones" [width]="40" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex align-items-center col-actions" *ngIf="row.estado_recomendacion == 'En proceso'">
+                <div ngbDropdown container="body">
+                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0" rippleEffect>
+                    <i data-feather="more-vertical" size="18" class="cursor-pointer"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <a (click)="onCompletedRecomendacion('completed-recomendacion-sidebar', row)" ngbDropdownItem><i data-feather="check-circle" class="mr-1"></i>Completar</a>
+                    <a (click)="onRejectedRecomendacion('rejected-recomendacion-sidebar', row)" ngbDropdownItem><i data-feather="x-circle" class="mr-1"></i>Rechazar</a>
+                    <a (click)="onOpenSendQuoteModal(row.id)" ngbDropdownItem><i data-feather="send" class="mr-1"></i>Cotizar</a>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="new-recomendacion-sidebar"
+    overlayClass="modal-backdrop">
+    <app-new-recomendacion-sidebar></app-new-recomendacion-sidebar>
+  </core-sidebar>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="rejected-recomendacion-sidebar"
+    overlayClass="modal-backdrop">
+    <app-rejected-recomendacion-sidebar [recomendacion]="recomendacion"></app-rejected-recomendacion-sidebar>
+  </core-sidebar>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="completed-recomendacion-sidebar"
+    overlayClass="modal-backdrop">
+    <app-completed-recomendacion-sidebar [recomendacion]="recomendacion"></app-completed-recomendacion-sidebar>
+  </core-sidebar>
+</div>

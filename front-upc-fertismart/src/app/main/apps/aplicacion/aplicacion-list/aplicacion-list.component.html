@@ -1,0 +1,150 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <section class="aplicacions-list-wrapper">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center"
+                >Mostrar
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+              <label class="d-flex align-items-center ml-1 ml-md-0"
+                >Buscar:<input
+                  [(ngModel)]="searchValue"
+                  name="searchValue"
+                  type="search"
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+              <button *ngIf="claimMainCreateAplication" class="btn btn-primary ml-1" rippleEffect (click)="onAddAplicacion('new-aplicacion-sidebar')">
+                <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+                ><span class="d-none d-sm-inline-block">Agregar aplicacion</span>
+              </button>
+              <button class="btn btn-primary ml-1" rippleEffect (click)="onGenerateReportCSV()">
+                <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+                ><span class="d-none d-sm-inline-block">Generar reporte</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ngx-datatable
+          [rows]="rows"
+          [rowHeight]="50"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+          <ngx-datatable-column name="Resultado" prop="resultado" [width]="450">
+            <ng-template let-row="row" let-resultado="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="avatar mr-1 ml-0 bg-warning">
+                    <div class="avatar-content">{{ (row.resultado || row.motivo_fallo) | initials }}</div>
+                </div>
+                <div class="col cell-line-height">
+                  <a (click)="onEditAplicacion()" class="font-medium d-block">
+                    <span class="font-weight-bold">{{ (row.resultado || row.motivo_fallo) }}</span>
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Estado" prop="get_recomendacion_estado">
+            <ng-template let-row="row" let-get_recomendacion_estado="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <div class="badge badge-pill"
+                    [ngClass]="{
+                      'badge-light-secondary': get_recomendacion_estado == 'En proceso',
+                      'badge-light-success': get_recomendacion_estado == 'Completada',
+                      'badge-light-danger': get_recomendacion_estado == 'Rechazada'
+                    }"
+                  >
+                    {{get_recomendacion_estado}}
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Campo" prop="get_nombre_campo" [width]="300">
+            <ng-template let-row="row" let-get_nombre_campo="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ get_nombre_campo.length > 100  ? (get_nombre_campo | slice:0:20)+'...' : get_nombre_campo }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Fertilizante" prop="get_nombre_fertilizante">
+            <ng-template let-row="row" let-get_nombre_fertilizante="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ get_nombre_fertilizante.length > 100  ? (get_nombre_fertilizante | slice:0:20)+'...' : get_nombre_fertilizante }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Fecha" prop="fecha_aplicacion">
+            <ng-template let-row="row" let-fecha_aplicacion="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ fecha_aplicacion | date:'dd MMM, yy'  }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Dosis" prop="dosis">
+            <ng-template let-row="row" let-dosis="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ dosis }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column *ngIf="claimMainEditAplication || claimMainDeleteAplication"  name="Acciones" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex align-items-center col-actions">
+                <a *ngIf="claimMainEditAplication" class="mr-1" (click)="onEditAplicacion('edit-aplicacion-sidebar', row)" container="body" placement="top" ngbTooltip="Editar"
+                  ><i size="18" data-feather="edit"></i
+                ></a>
+                <a *ngIf="claimMainDeleteAplication" class="mr-1" (click)="onOpenDeleteModal(row)" container="body" placement="top" ngbTooltip="Eliminar"
+                  ><i size="18" data-feather="trash"></i
+                ></a>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="new-aplicacion-sidebar"
+    overlayClass="modal-backdrop">
+    <app-new-aplicacion-sidebar></app-new-aplicacion-sidebar>
+  </core-sidebar>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="edit-aplicacion-sidebar"
+    overlayClass="modal-backdrop">
+    <app-edit-aplicacion-sidebar [rowEdit]="rowEdit"></app-edit-aplicacion-sidebar>
+  </core-sidebar>
+</div>

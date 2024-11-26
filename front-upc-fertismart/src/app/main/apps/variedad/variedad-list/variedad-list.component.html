@@ -1,0 +1,102 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <section class="variedads-list-wrapper">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center"
+                >Mostrar
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+              <label class="d-flex align-items-center ml-1 ml-md-0"
+                >Buscar:<input
+                  [(ngModel)]="searchValue"
+                  name="searchValue"
+                  type="search"
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+              <button class="btn btn-primary ml-1" rippleEffect (click)="onAddVariedad('new-variedad-sidebar')">
+                <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+                ><span class="d-none d-sm-inline-block">Agregar variedad</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ngx-datatable
+          [rows]="rows"
+          [rowHeight]="50"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+          <ngx-datatable-column name="Nombre" prop="nombre_variedad">
+            <ng-template let-row="row" let-nombre_variedad="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="avatar mr-1 ml-0 bg-gradient-warning">
+                    <div class="avatar-content">{{ nombre_variedad | initials }}</div>
+                </div>
+                <div class="cell-line-height">
+                  <a (click)="onEditVariedad()" class="font-medium d-block">
+                    <span class="font-weight-bold">{{ nombre_variedad }}</span>
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Siglas" prop="siglas_variedad">
+            <ng-template let-row="row" let-siglas_variedad="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ siglas_variedad }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Acciones" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex align-items-center col-actions">
+                <a class="mr-1" (click)="onEditVariedad('edit-variedad-sidebar', row)" container="body" placement="top" ngbTooltip="Editar"
+                  ><i size="18" data-feather="edit"></i
+                ></a>
+                <a class="mr-1" (click)="onOpenDeleteModal(row)" container="body" placement="top" ngbTooltip="Eliminar"
+                  ><i size="18" data-feather="trash"></i
+                ></a>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="new-variedad-sidebar"
+    overlayClass="modal-backdrop">
+    <app-new-variedad-sidebar></app-new-variedad-sidebar>
+  </core-sidebar>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="edit-variedad-sidebar"
+    overlayClass="modal-backdrop">
+    <app-edit-variedad-sidebar [rowEdit]="rowEdit"></app-edit-variedad-sidebar>
+  </core-sidebar>
+</div>

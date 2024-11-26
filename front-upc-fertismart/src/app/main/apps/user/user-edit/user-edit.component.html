@@ -1,0 +1,399 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <section class="app-user-edit">
+      <div class="card">
+        <div class="card-body">
+          <ul ngbNav #nav="ngbNav" class="nav nav-pills">
+            <li ngbNavItem>
+              <a ngbNavLink class="d-flex align-items-center"
+                ><i data-feather="user" class="mr-sm-50"></i><span class="d-none d-sm-block">Cuenta</span></a
+              >
+              <ng-template ngbNavContent>
+                <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
+                  <div class="media mb-2">
+                    <div
+                        class="mr-1 ml-0 rounded p-3"
+                        [ngClass]="{
+                          'bg-light-success': currentUser.is_active,
+                          'bg-light-warning': !currentUser.is_active
+                        }"
+                      >
+                      <h2
+                        [ngClass]="{
+                          'text-success': currentUser.is_active,
+                          'text-warning': !currentUser.is_active
+                        }"
+                        class="m-0"
+                      >
+                        {{ currentUser.profile.get_fullname | initials }}
+                      </h2>
+                    </div>
+                    <div class="media-body mt-50">
+                      <h4>{{ currentUser.profile.get_fullname }}</h4>                      
+                      <div class="col-12 d-flex mt-1 px-0">
+                        <button 
+                          class="btn btn-outline-secondary d-none d-sm-block mr-75 mb-0" 
+                          rippleEffect
+                          (click)="onResetPasswordUser(currentUser.id)">Resetear contraseña
+                        </button>
+                        <button 
+                          class="btn btn-outline-secondary d-block d-sm-none mr-75 mb-0"
+                          (click)="onResetPasswordUser(currentUser.id)">
+                          <i class="mr-0" data-feather="unlock"></i>
+                        </button>
+
+                        <button *ngIf="currentUser.is_active && !validateUserSession"
+                          class="btn btn-outline-danger d-none d-sm-block"
+                          rippleEffect
+                          (click)="onDeactivateUser(currentUser.id)">Deshabilitar</button>
+                        <button *ngIf="currentUser.is_active && !validateUserSession"
+                          class="btn btn-outline-danger d-block d-sm-none"
+                          (click)="onDeactivateUser(currentUser.id)">
+                          <i class="mr-0" data-feather="user-x"></i>
+                        </button>
+
+                        <button *ngIf="!currentUser.is_active && !validateUserSession"
+                          class="btn btn-outline-success d-none d-sm-block" 
+                          rippleEffect
+                          (click)="onActivateUser(currentUser.id)">Habilitar
+                        </button>
+                        <button *ngIf="!currentUser.is_active && !validateUserSession"
+                          class="btn btn-outline-success d-block d-sm-none"
+                          (click)="onActivateUser(dacurrentUsera.id)">
+                          <i class="mr-0" data-feather="user-check"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <form class="form-validate" [formGroup]="editForm">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="username">Usuario</label>
+                          <input
+                            type="text"
+                            id="username"
+                            class="form-control"
+                            placeholder="Username"
+                            name="username"
+                            formControlName="username"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('username') }"
+                            disabled
+                          />
+                          <span *ngIf="errorHandlingForm('username')" class="invalid-form">
+                            <small 
+                              *ngIf="errorHandlingFormValidator('username', 'required')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="is-active">Estado</label>
+                          <select class="form-control" formControlName="is_active" name="is-active" id="is-active" disabled>
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4" formGroupName="profile">
+                        <div class="form-group">
+                          <label for="name">Nombres</label>
+                          <input
+                            type="text"
+                            id="name"
+                            class="form-control"
+                            placeholder="Nombres"
+                            name="names"
+                            formControlName="names"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('names', 'profile') }"
+                          />
+                          <span *ngIf="errorHandlingForm('names', 'profile')" class="invalid-form">
+                            <small 
+                              *ngIf="errorHandlingFormValidator('names', 'required', 'profile')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4" formGroupName="profile">
+                        <div class="form-group">
+                          <label for="name">Apellido paterno</label>
+                          <input
+                            type="text"
+                            id="father-last-name"
+                            class="form-control"
+                            placeholder="Apellido paterno"
+                            name="father-last-name"
+                            formControlName="father_last_name"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('father_last_name', 'profile') }"
+                          />
+                          <span *ngIf="errorHandlingForm('father_last_name', 'profile')" class="invalid-form">
+                            <small 
+                              *ngIf="errorHandlingFormValidator('father_last_name', 'required', 'profile')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4" formGroupName="profile">
+                        <div class="form-group">
+                          <label for="name">Apellido materno</label>
+                          <input
+                            type="text"
+                            id="mother-last-name"
+                            class="form-control"
+                            placeholder="Apellido materno"
+                            name="mother-last-name"
+                            formControlName="mother_last_name"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('mother_last_name', 'profile') }"
+                          />
+                          <span *ngIf="errorHandlingForm('mother_last_name', 'profile')" class="invalid-form">
+                            <small 
+                              *ngIf="errorHandlingFormValidator('mother_last_name', 'required', 'profile')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="email">Correo</label>
+                          <input
+                            type="email"
+                            id="email"
+                            class="form-control"
+                            placeholder="Email"
+                            name="email"
+                            formControlName="email"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('email') }"
+                          />
+                          <span *ngIf="errorHandlingForm('email')" class="invalid-form">
+                            <small 
+                              *ngIf="errorHandlingFormValidator('email', 'required')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                            <small
+                              *ngIf="errorHandlingFormValidator('email', 'email')"
+                              class="form-text text-danger">
+                              Ingresar un email válido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-label" for="user-group">Grupo rol</label>
+                          <select 
+                            id="user-group" 
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('groups') }"
+                            formControlName="groups">
+                            <option *ngFor="let group of userGroupsList" 
+                                [value]="group.id" >
+                              {{group.name}}
+                            </option>
+                          </select>
+                          <span *ngIf="errorHandlingForm('groups')" class="invalid-form">
+                            <small
+                              *ngIf="errorHandlingFormValidator('groups', 'required')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                        <button
+                          (click)="onSubmitEdit()" 
+                          class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+                          [disabled]="editForm.invalid"
+                          rippleEffect
+                        >
+                          Guardar cambios
+                        </button>
+                        <!-- <button (click)="resetFormWithDefaultValues()" class="btn btn-outline-secondary" rippleEffect>
+                          Resetear
+                        </button> -->
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </li>
+            <li ngbNavItem>
+              <a ngbNavLink class="d-flex align-items-center">
+                <i data-feather="info" class="mr-sm-50"></i><span class="d-none d-sm-block">Información</span></a
+              >
+              <ng-template ngbNavContent>
+                <!-- Information Tab starts -->
+                <div class="tab-pane" id="information" aria-labelledby="information-tab" role="tabpanel">
+                  <!-- users edit Info form start  -->
+                  <form class="form-validate" [formGroup]="editForm">
+                    <div class="row mt-1" formGroupName="profile">
+                      <div class="col-12">
+                        <h4 class="mb-1">
+                          <i data-feather="user" [size]="16" class="mr-75 font-medium-4"></i>
+                          <span class="align-middle">Información personal</span>
+                        </h4>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="last-birthday">Fecha de nacimiento (Opcional)</label>
+                          <div class="input-group">
+                            <input
+                              class="form-control"
+                              placeholder="yyyy-mm-dd"
+                              formControlName="birthday"
+                              ngbDatepicker
+                              #birthdayDP="ngbDatepicker"
+                              [ngClass]="{ 'is-invalid': errorHandlingForm('birthday', 'profile') }"
+                            />
+                            <div class="input-group-append">
+                              <button
+                                class="btn btn-outline-secondary feather icon-calendar"
+                                (click)="birthdayDP.toggle()"
+                                type="button"
+                                rippleEffect
+                              ></button>
+                            </div>
+                          </div>
+                          <span *ngIf="errorHandlingForm('birthday', 'profile')" class="invalid-form">
+                            <small
+                              *ngIf="errorHandlingFormValidator('birthday', 'ngbDate', 'profile')"
+                              class="form-text text-danger">
+                              El formato no es correcto!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label for="telephone">Teléfono</label>
+                          <input id="telephone" 
+                            type="text" 
+                            class="form-control" 
+                            formControlName="telephone"
+                            name="telephone"
+                            maxlength="10"
+                            pattern="[0-9]+"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('telephone', 'profile') }"
+                           />
+                            <span *ngIf="errorHandlingForm('telephone', 'profile')" class="invalid-form">
+                              <small
+                                *ngIf="errorHandlingFormValidator('telephone', 'required', 'profile')"
+                                class="form-text text-danger">
+                                Este campo es requerido!
+                              </small>
+                            </span>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label for="address">Dirección (Opcional)</label>
+                          <input
+                            id="address"
+                            type="text"
+                            class="form-control"
+                            placeholder="Dirección"
+                            formControlName="address"
+                            name="address"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-country">País</label>
+                          <select 
+                            id="user-country" 
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('country', 'profile') }"
+                            formControlName="country">
+                            <option value="">Seleccionar</option>
+                            <option *ngFor="let country of countryList" 
+                                [value]="country.id" >
+                              {{country.name}}
+                            </option>
+                          </select>
+                          <span *ngIf="errorHandlingForm('country', 'profile')" class="invalid-form">
+                            <small
+                              *ngIf="errorHandlingFormValidator('country', 'required', 'profile')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-type-document">Tipo de documento</label>
+                          <select 
+                            id="user-type-document" 
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('type_document', 'profile') }"
+                            formControlName="type_document">
+                            <option value="">Seleccionar</option>
+                            <option *ngFor="let typeDoc of typeDocList" 
+                                [value]="typeDoc.id" >
+                              {{typeDoc.name}}
+                            </option>
+                          </select>
+                          <span *ngIf="errorHandlingForm('type_document', 'profile')" class="invalid-form">
+                            <small
+                              *ngIf="errorHandlingFormValidator('type_document', 'required', 'profile')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label for="num_document">Num. de documento</label>
+                          <input
+                            id="num_document"
+                            type="text"
+                            class="form-control"
+                            placeholder="Num. de documento"
+                            formControlName="num_document"
+                            name="num_document"
+                            [ngClass]="{ 'is-invalid': errorHandlingForm('num_document', 'profile') }"
+                          />
+                          <span *ngIf="errorHandlingForm('num_document', 'profile')" class="invalid-form">
+                            <small
+                              *ngIf="errorHandlingFormValidator('num_document', 'required', 'profile')"
+                              class="form-text text-danger">
+                              Este campo es requerido!
+                            </small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                        <button (click)="onSubmitEdit()" 
+                          class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" 
+                          [disabled]="editForm.invalid"
+                          rippleEffect>
+                          Guardar cambios
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                  <!-- users edit Info form ends -->
+                </div>
+                <!-- Information Tab ends -->
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </section>
+    <!-- users edit ends -->
+  </div>
+</div>

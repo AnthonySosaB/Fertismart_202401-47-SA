@@ -1,0 +1,212 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade new-recomendacion-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-new-recomendacion modal-content pt-0" [formGroup]="registerForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-recomendacion-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nueva recomendación</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="campo">Campo</label>
+              <select 
+                id="campo" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('campo') }"
+                formControlName="campo">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let campo of campoList" 
+                    [value]="campo.id" >
+                  {{campo.nombre_campo}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('campo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('campo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-fecha">Fecha</label>
+              <input
+                class="form-control"
+                id="new-fecha"
+                name="new-fecha"
+                formControlName="fecha"
+                placeholder="DD/MM/AAAA" 
+                mask="00/00/0000" 
+                [ngClass]="{ 'is-invalid': errorHandlingForm('fecha') }"
+              />
+              <span *ngIf="errorHandlingForm('fecha')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('fecha', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-fosforo">Fosforo</label>
+              <input
+                type="number"
+                class="form-control dt-fosforo"
+                id="new-fosforo"
+                name="new-fosforo"
+                formControlName="fosforo"
+                placeholder="Ingresa valor de fosforo..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('fosforo') }"
+              />
+              <span *ngIf="errorHandlingForm('fosforo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('fosforo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-potasio">Potasio</label>
+              <input
+                type="number"
+                class="form-control dt-potasio"
+                id="new-potasio"
+                name="new-potasio"
+                formControlName="potasio"
+                placeholder="Ingresa valor de potasio..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('potasio') }"
+              />
+              <span *ngIf="errorHandlingForm('potasio')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('potasio', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-temperatura">Temperatura</label>
+              <input
+                type="number"
+                class="form-control dt-temperatura"
+                id="new-temperatura"
+                name="new-temperatura"
+                formControlName="temperatura"
+                placeholder="Ingresa valor de temperatura..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('temperatura') }"
+              />
+              <span *ngIf="errorHandlingForm('temperatura')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('temperatura', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-humedad_suelo">Humedad del suelo</label>
+              <input
+                type="number"
+                class="form-control dt-humedad_suelo"
+                id="new-humedad_suelo"
+                name="new-humedad_suelo"
+                formControlName="humedad_suelo"
+                placeholder="Ingresa valor de humedad del suelo..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('humedad_suelo') }"
+              />
+              <span *ngIf="errorHandlingForm('humedad_suelo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('humedad_suelo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-humedad_aire">Humedad del aire</label>
+              <input
+                type="number"
+                class="form-control dt-humedad_aire"
+                id="new-humedad_aire"
+                name="new-humedad_aire"
+                formControlName="humedad_aire"
+                placeholder="Ingresa valor de humedad del aire..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('humedad_aire') }"
+              />
+              <span *ngIf="errorHandlingForm('humedad_aire')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('humedad_aire', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-nitrogeno">Nitrogeno</label>
+              <input
+                type="number"
+                class="form-control dt-nitrogeno"
+                id="new-nitrogeno"
+                name="new-nitrogeno"
+                formControlName="nitrogeno"
+                placeholder="Ingresa valor de nitrogeno..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('nitrogeno') }"
+              />
+              <span *ngIf="errorHandlingForm('nitrogeno')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('nitrogeno', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-observacion">Observación</label>
+              <input
+                type="text"
+                class="form-control dt-observacion"
+                id="new-observacion"
+                name="new-observacion"
+                formControlName="observacion"
+                placeholder="Ingresa observacion..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('observacion') }"
+              />
+              <span *ngIf="errorHandlingForm('observacion')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('observacion', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="registerForm.invalid"
+            (click)="onSubmitAdd()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

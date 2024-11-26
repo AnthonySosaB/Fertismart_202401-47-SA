@@ -1,0 +1,207 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade new-campo-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-new-campo modal-content pt-0" [formGroup]="registerForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-campo-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo campo</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="edit-nombre_campo">Nombre</label>
+              <input
+                type="text"
+                class="form-control dt-nombre_campo"
+                id="edit-nombre_campo"
+                name="edit-nombre_campo"
+                formControlName="nombre_campo"
+                placeholder="Ingresa el nombre..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('nombre_campo') }"
+              />
+              <span *ngIf="errorHandlingForm('nombre_campo')" class="invalid-form">
+                <small 
+                  *ngIf="errorHandlingFormValidator('nombre_campo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-siglas_campo">Siglas</label>
+              <input
+                type="text"
+                class="form-control dt-siglas_campo"
+                id="edit-siglas_campo"
+                name="edit-siglas_campo"
+                formControlName="siglas_campo"
+                placeholder="Ingresa siglas.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('siglas_campo') }"
+              />
+              <span *ngIf="errorHandlingForm('siglas_campo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('siglas_campo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group my-2">
+              <label class="form-label" for="tipo_suelo">Tipo de Suelo</label>
+              <select 
+                id="tipo_suelo" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('tipo_suelo') }"
+                formControlName="tipo_suelo">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let suelo of sueloList" 
+                    [value]="suelo.id" >
+                  {{suelo.nombre_tipo_suelo}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('tipo_suelo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('tipo_suelo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group my-2">
+              <label class="form-label" for="cultivo">Cultivo</label>
+              <select 
+                id="cultivo" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('cultivo') }"
+                formControlName="cultivo">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let cultivo of cultivoList" 
+                    [value]="cultivo.id" >
+                  {{cultivo.nombre_cultivo}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('cultivo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('cultivo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group my-2">
+              <label class="form-label" for="variedad">Variedad de Cultivo</label>
+              <select 
+                id="variedad" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('variedad') }"
+                formControlName="variedad">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let variedad of variedadList" 
+                    [value]="variedad.id" >
+                  {{variedad.nombre_variedad}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('variedad')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('variedad', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-area">Área</label>
+              <input
+                type="number"
+                class="form-control dt-area"
+                id="new-area"
+                name="new-area"
+                formControlName="area"
+                placeholder="Ingresa area..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('area') }"
+              />
+              <span *ngIf="errorHandlingForm('area')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('area', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-latitud">Latitud</label>
+              <input
+                type="number"
+                class="form-control dt-latitud"
+                id="new-latitud"
+                name="new-latitud"
+                formControlName="latitud"
+                placeholder="Ingresa latitud..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('latitud') }"
+              />
+              <span *ngIf="errorHandlingForm('latitud')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('latitud', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-longitud">Longiud</label>
+              <input
+                type="number"
+                class="form-control dt-longitud"
+                id="new-longitud"
+                name="new-longitud"
+                formControlName="longitud"
+                placeholder="Ingresa longitud..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('longitud') }"
+              />
+              <span *ngIf="errorHandlingForm('longitud')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('longitud', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group my-2">
+              <div class="custom-control custom-switch custom-control-inline">
+                <input 
+                  type="checkbox" 
+                  class="custom-control-input" 
+                  id="new-estado" 
+                  formControlName="estado"/>
+                <label class="custom-control-label" for="new-estado">Estado</label>
+              </div>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="registerForm.invalid"
+            (click)="onSubmitAdd()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,216 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="row match-height">
+      <div class="col-lg-12 col-12">
+        <div class="card card-revenue-budget">
+          <div class="row mx-0">
+            <div class="col-md-8 col-12 revenue-report-wrapper">
+              <div class="d-sm-flex justify-content-between align-items-center mb-3">
+                <h4 class="card-title mb-50 mb-sm-0">Resumen de gastos del año actual</h4>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex align-items-center">
+                    <span class="bullet bullet-warning font-small-3 mr-50 cursor-pointer"></span>
+                    <span>Gastos</span>
+                  </div>
+                </div>
+              </div>
+              <div id="revenue-report-chart" #revenueReportChartoptionsRef>
+                <apx-chart
+                  [series]="dataReportGraph.profitExpenseReport.series"
+                  [chart]="{
+                    height: 230,
+                    width:
+                      isMenuToggled === false
+                        ? revenueReportChartoptionsRef.offsetWidth
+                        : gastosReportChartOptions.chart.width,
+                    stacked: true,
+                    type: 'bar',
+                    toolbar: { show: false }
+                  }"
+                  [plotOptions]="gastosReportChartOptions.plotOptions"
+                  [colors]="gastosReportChartOptions.colors"
+                  [dataLabels]="gastosReportChartOptions.dataLabels"
+                  [legend]="gastosReportChartOptions.legend"
+                  [grid]="gastosReportChartOptions.grid"
+                  [xaxis]="gastosReportChartOptions.xaxis"
+                  [yaxis]="gastosReportChartOptions.yaxis"
+                ></apx-chart>
+              </div>
+            </div>
+            <div class="col-md-4 col-12 budget-wrapper">
+              <div class="btn-group">
+                <div ngbDropdown>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm budget-dropdown"
+                    ngbDropdownToggle
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    ngbDropdownToggle
+                  >
+                    2024
+                  </button>
+                </div>
+              </div>
+              <h2 class="mb-25">{{ dataReportGraph.totalsData.currentExpenseMonth | currencyPeru }}</h2>
+              <div class="d-flex justify-content-center">
+                <span class="font-weight-bolder mr-25">Gasto total anual:</span>
+                <span>{{ dataReportGraph.totalsData.currentExpenseYear | currencyPeru }}</span>
+              </div>
+              <div id="budget-chart" #budgetChartoptionsRef>
+                <apx-chart
+                  [series]="dataReportGraph.budgetChart.series"
+                  [chart]="{
+                    height: 80,
+                    width:
+                      isMenuToggled === false ? budgetChartoptionsRef.offsetWidth : budgetChartoptions.chart.width,
+                    toolbar: { show: false },
+                    zoom: { enabled: false },
+                    type: 'line',
+                    sparkline: { enabled: true }
+                  }"
+                  [stroke]="budgetChartoptions.stroke"
+                  [colors]="budgetChartoptions.colors"
+                  [tooltip]="budgetChartoptions.tooltip"
+                ></apx-chart>
+              </div>
+              <button type="button" 
+                class="btn btn-secondary" 
+                placement="top" 
+                disabled
+                ngbTooltip="Aún no se encuentra disponible el detalle de gastos por mes y año" 
+                rippleEffect>Ver detalle</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="gastos-list-wrapper">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center"
+                >Mostrar
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+              <label class="d-flex align-items-center ml-1 ml-md-0"
+                >Buscar:<input
+                  [(ngModel)]="searchValue"
+                  name="searchValue"
+                  type="search"
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+              <button class="btn btn-primary ml-1" rippleEffect (click)="onAddGasto('new-gasto-sidebar')">
+                <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+                ><span class="d-none d-sm-inline-block">Agregar gasto</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ngx-datatable
+          [rows]="rows"
+          [rowHeight]="50"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+          <ngx-datatable-column name="Descripción" prop="descripcion_gasto" [width]="300">
+            <ng-template let-row="row" let-descripcion_gasto="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="avatar mr-1 ml-0 bg-warning">
+                    <div class="avatar-content">{{ descripcion_gasto | initials }}</div>
+                </div>
+                <div class="cell-line-height">
+                  <a (click)="onEditGasto()" class="font-medium d-block">
+                    <span class="font-weight-bold">{{ descripcion_gasto }}</span>
+                  </a>
+                  <span class="text-muted font-small-2"> Tipo: {{ row.get_nombre_tipo_gasto }}  </span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Campo" prop="get_nombre_campo" [width]="300">
+            <ng-template let-row="row" let-get_nombre_campo="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ get_nombre_campo.length > 100  ? (get_nombre_campo | slice:0:20)+'...' : get_nombre_campo }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Monto" prop="monto" [width]="100">
+            <ng-template let-row="row" let-monto="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ monto | currencyPeru }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Fecha" prop="fecha_registro" [width]="100">
+            <ng-template let-row="row" let-fecha_registro="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ fecha_registro | date:'dd MMM, yy' }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Observaciones" prop="observaciones">
+            <ng-template let-row="row" let-observaciones="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ observaciones.length > 20  ? (observaciones | slice:0:20)+'...' : observaciones }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Acciones" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex align-items-center col-actions">
+                <a class="mr-1" (click)="onEditGasto('edit-gasto-sidebar', row)" container="body" placement="top" ngbTooltip="Editar"
+                  ><i size="18" data-feather="edit"></i
+                ></a>
+                <a class="mr-1" (click)="onOpenDeleteModal(row)" container="body" placement="top" ngbTooltip="Eliminar"
+                  ><i size="18" data-feather="trash"></i
+                ></a>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="new-gasto-sidebar"
+    overlayClass="modal-backdrop">
+    <app-new-gasto-sidebar></app-new-gasto-sidebar>
+  </core-sidebar>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="edit-gasto-sidebar"
+    overlayClass="modal-backdrop">
+    <app-edit-gasto-sidebar [rowEdit]="rowEdit"></app-edit-gasto-sidebar>
+  </core-sidebar>
+</div>

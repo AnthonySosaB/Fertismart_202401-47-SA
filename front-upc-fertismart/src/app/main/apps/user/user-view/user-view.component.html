@@ -1,0 +1,156 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <section class="app-user-view">
+      <div class="row">
+        <div class="col-xl-9 col-lg-8 col-md-7">
+          <div class="card user-card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-xl-6 col-lg-12 d-flex flex-column justify-content-between border-container-lg">
+                  <div class="user-avatar-section">
+                    <div class="d-flex justify-content-start">
+                      <div class="mr-1 ml-0">
+                        <div
+                          [ngClass]="{
+                            'bg-light-success': data.is_active,
+                            'bg-light-warning': !data.is_active
+                          }"
+                          class="rounded p-3"
+                        >
+                          <h2
+                            [ngClass]="{
+                              'text-success': data.is_active,
+                              'text-warning': !data.is_active
+                            }"
+                            class="m-0"
+                          >
+                            {{ data.profile.get_fullname | initials }}
+                          </h2>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column ml-1">
+                        <div class="user-info mb-1">
+                          <h4 class="mb-0">{{ data.profile.get_fullname }}</h4>
+                          <span class="card-text">{{ data.email }}</span>
+                        </div>
+                        <div class="d-flex flex-wrap">
+                          <a routerLink="/apps/user/user-edit/{{ data.id }}" class="btn btn-outline-primary" rippleEffect
+                            >Editar</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-12 mt-2 mt-xl-0">
+                  <div class="user-info-wrapper">
+                    <div class="d-flex flex-wrap">
+                      <div class="user-info-title">
+                        <i data-feather="user" class="mr-1"></i>
+                        <span class="card-text user-info-title font-weight-bold mb-0">Usuario</span>
+                      </div>
+                      <p class="card-text mb-0">{{ data.username }}</p>
+                    </div>
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <i data-feather="check" class="mr-1"></i>
+                        <span class="card-text user-info-title font-weight-bold mb-0">Nombres</span>
+                      </div>
+                      <p class="card-text mb-0">{{ data.profile.names }}</p>
+                    </div>
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <i data-feather="star" class="mr-1"></i>
+                        <span class="card-text user-info-title font-weight-bold mb-0">Apellidos</span>
+                      </div>
+                      <p class="card-text mb-0">{{ data.profile.father_last_name }} {{ data.profile.mother_last_name }}</p>
+                    </div>
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <i data-feather="flag" class="mr-1"></i>
+                        <span class="card-text user-info-title font-weight-bold mb-0">Teléfono</span>
+                      </div>
+                      <p class="card-text mb-0">{{ data.profile.telephone }}</p>
+                    </div>
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <i data-feather="map-pin" class="mr-1"></i>
+                        <span class="card-text user-info-title font-weight-bold mb-0">Dirección</span>
+                      </div>
+                      <p class="card-text mb-0">{{ data.profile.address }}</p>
+                    </div>
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <i data-feather="coffee" class="mr-1"></i>
+                        <span class="card-text user-info-title font-weight-bold mb-0">Fec. Nacimiento</span>
+                      </div>
+                      <p class="card-text mb-0">{{ data.profile.birthday }}</p>
+                    </div>
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <i data-feather="map" class="mr-1"></i>
+                        <span class="card-text user-info-title font-weight-bold mb-0">País</span>
+                      </div>
+                      <p class="card-text mb-0">{{ data.profile.get_country_name }}</p>
+                    </div>
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <i data-feather="credit-card" class="mr-1"></i>
+                        <span class="card-text user-info-title font-weight-bold mb-0">Documento</span>
+                      </div>
+                      <p class="card-text mb-0">{{ data.profile.get_type_document_name }} - {{ data.profile.num_document }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-4 col-md-5">
+          <div class="card plan-card border-primary">
+            <div class="card-header d-flex justify-content-between align-items-center pt-75 pb-1">
+              <h5 class="mb-0">Estado de usuario</h5>
+              <div class="badge"
+                [ngClass]="{
+                  'badge-light-success': data.is_active,
+                  'badge-light-warning': !data.is_active
+                }">
+                {{ data.is_active ? 'Activo' : 'Inactivo' }}
+              </div>
+            </div>
+            <div class="card-body" *ngIf="data.is_active">
+              <ul class="list-unstyled my-1">
+                <li class="my-25">
+                  <span class="align-middle">El usuario se encuentra en estado activo, 
+                    por lo tanto tendra acceso al sistema con los permisos asignados al rol de {{data.groups_names[0]}}.
+                  </span>
+                </li>
+              </ul>
+              <button *ngIf="!validateUserSession"
+                class="btn btn-danger text-center btn-block"
+                (click)="onDeactivateUser(data.id)"
+                rippleEffect>Deshabilitar usuario
+              </button>
+            </div>
+            <div class="card-body" *ngIf="!data.is_active">
+              <ul class="list-unstyled my-1">
+                <li class="my-25">
+                  <span class="align-middle">El usuario se encuentra en estado inactivo, 
+                    por lo tanto no tendrá acceso al sistema.
+                  </span>
+                </li>
+              </ul>
+              <button *ngIf="!validateUserSession"
+                class="btn btn-success text-center btn-block"
+                (click)="onActivateUser(data.id)"
+                rippleEffect>Habilitar usuario</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>

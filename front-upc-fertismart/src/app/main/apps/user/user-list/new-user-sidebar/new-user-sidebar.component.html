@@ -1,0 +1,296 @@
+<div class="slideout-content">
+  <!-- Modal to add new user starts-->
+  <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-new-user modal-content pt-0" [formGroup]="registerForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-user-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group" formGroupName="profile">
+            <div class="form-group">
+              <label class="form-label" for="names">Nombres</label>
+              <input
+                type="text"
+                class="form-control dt-names"
+                id="names"
+                name="names"
+                formControlName="names"
+                placeholder="Ingresa los nombres..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('names', 'profile') }"
+              />
+              <span *ngIf="errorHandlingForm('names', 'profile')" class="invalid-form">
+                <small 
+                  *ngIf="errorHandlingFormValidator('names', 'required', 'profile')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="father-last-name">Apellido paterno</label>
+              <input
+                type="text"
+                class="form-control dt-father-last-name"
+                id="last-name"
+                name="last-name"
+                formControlName="father_last_name"
+                placeholder="Ingresa el apellido paterno..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('father_last_name', 'profile') }"
+              />
+              <span *ngIf="errorHandlingForm('father_last_name', 'profile')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('father_last_name', 'required', 'profile')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mother-last-name">Apellido materno</label>
+              <input
+                type="text"
+                class="form-control dt-mother-last-name"
+                id="mother-last-name"
+                name="mother-last-name"
+                formControlName="mother_last_name"
+                placeholder="Ingresa el apellido materno..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('mother_last_name', 'profile') }"
+              />
+              <span *ngIf="errorHandlingForm('mother_last_name', 'profile')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('mother_last_name', 'required', 'profile')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="last-name">Dirección (Opcional)</label>
+              <input
+                type="text"
+                class="form-control dt-address"
+                id="address"
+                name="address"
+                formControlName="address"
+                placeholder="Ingresa la dirección..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('address', 'profile') }"
+              />
+              <span *ngIf="errorHandlingForm('address', 'profile')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('address', 'required', 'profile')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="last-telephone">Teléfono</label>
+              <input
+                type="number"
+                class="form-control dt-telephone"
+                id="telephone"
+                name="telephone"
+                formControlName="telephone"
+                placeholder="Ingresa el teléfono..."
+                maxlength="10"
+                pattern="[0-9]+"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('telephone', 'profile') }"
+              />
+              <span *ngIf="errorHandlingForm('telephone', 'profile')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('telephone', 'required', 'profile')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="last-birthday">Fecha de nacimiento (Opcional)</label>
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  formControlName="birthday"
+                  ngbDatepicker
+                  #birthdayDP="ngbDatepicker"
+                  [ngClass]="{ 'is-invalid': errorHandlingForm('birthday', 'profile') }"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary feather icon-calendar"
+                    (click)="birthdayDP.toggle()"
+                    type="button"
+                    rippleEffect
+                  ></button>
+                </div>
+              </div>
+              <span *ngIf="errorHandlingForm('birthday', 'profile')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('birthday', 'ngbDate', 'profile')"
+                  class="form-text text-danger">
+                  El formato no es correcto!
+                </small>
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="user-country">País</label>
+              <select 
+                id="user-country" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('country', 'profile') }"
+                formControlName="country">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let country of countryList" 
+                    [value]="country.id" >
+                  {{country.name}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('country', 'profile')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('country', 'required', 'profile')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="user-type-document">Tipo de documento</label>
+              <select 
+                id="user-type-document" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('type_document', 'profile') }"
+                formControlName="type_document">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let typeDoc of typeDocList" 
+                    [value]="typeDoc.id" >
+                  {{typeDoc.name}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('type_document', 'profile')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('type_document', 'required', 'profile')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="last-telephone">Número de documento</label>
+              <input
+                type="text"
+                class="form-control dt-num-doc"
+                id="num-doc"
+                name="num-doc"
+                formControlName="num_document"
+                placeholder="Ingresa el num. documento..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('num_document', 'profile') }"
+              />
+              <span *ngIf="errorHandlingForm('num_document', 'profile')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('num_document', 'required', 'profile')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input
+              type="text"
+              class="form-control dt-email"
+              id="email"
+              name="email"
+              formControlName="email"
+              placeholder="Ingresa el email..."
+              [ngClass]="{ 'is-invalid': errorHandlingForm('email') }"
+              (change)="onChangeEmail($event.target.value)"
+            />
+            <span *ngIf="errorHandlingForm('email')" class="invalid-form">
+              <small
+                *ngIf="errorHandlingFormValidator('email', 'required')"
+                class="form-text text-danger">
+                Este campo es requerido!
+              </small>
+              <small
+                *ngIf="errorHandlingFormValidator('email', 'email')"
+                class="form-text text-danger">
+                Ingresar un email válido!
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="username">Usuario</label>
+            <input
+              type="text"
+              class="form-control dt-username"
+              id="username"
+              name="username"
+              formControlName="username"
+              placeholder="Será el email ingresado"
+              [ngClass]="{ 'is-invalid': errorHandlingForm('username') }"
+              disabled
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="user-group">Grupo rol</label>
+            <select 
+              id="user-group" 
+              class="form-control"
+              [ngClass]="{ 'is-invalid': errorHandlingForm('groups') }"
+              formControlName="groups">
+              <option value="">Seleccionar</option>
+              <option *ngFor="let group of userGroupsList" 
+                  [value]="group.id" >
+                {{group.name}}
+              </option>
+            </select>
+            <span *ngIf="errorHandlingForm('groups')" class="invalid-form">
+              <small
+                *ngIf="errorHandlingFormValidator('groups', 'required')"
+                class="form-text text-danger">
+                Este campo es requerido!
+              </small>
+            </span>
+          </div>
+          <div class="form-group my-2">
+            <div class="custom-control custom-switch custom-control-inline">
+              <input 
+                type="checkbox" 
+                class="custom-control-input" 
+                id="status" 
+                formControlName="is_active"/>
+              <label class="custom-control-label" for="status">Estado del usuario</label>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="registerForm.invalid"
+            (click)="onSubmitAdd()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>

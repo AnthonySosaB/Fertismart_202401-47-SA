@@ -1,0 +1,159 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade new-aplicacion-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-new-aplicacion modal-content pt-0" [formGroup]="registerForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-aplicacion-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Nueva aplicacion</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="campo">Campo</label>
+              <select 
+                id="campo" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('campo') }"
+                formControlName="campo">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let campo of campoList" 
+                    [value]="campo.id" >
+                  {{campo.nombre_campo}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('campo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('campo', 'required')"
+                  class="form-text text-danger">
+                  Este aplicacion es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group my-2">
+              <label class="form-label" for="fertilizante">Fertilizante</label>
+              <select 
+                id="fertilizante" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('fertilizante') }"
+                formControlName="fertilizante">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let fertilizante of fertilizanteList" 
+                    [value]="fertilizante.id" >
+                  {{fertilizante.nombre_fertilizante}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('fertilizante')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('fertilizante', 'required')"
+                  class="form-text text-danger">
+                  Este aplicacion es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group my-2">
+              <label class="form-label" for="recomendacion">Recomendación</label>
+              <select 
+                id="recomendacion" 
+                class="form-control"
+                [ngClass]="{ 'is-invalid': errorHandlingForm('recomendacion') }"
+                formControlName="recomendacion">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let recomendacion of recomendacionList" 
+                    [value]="recomendacion.id" >
+                  {{recomendacion.observacion}}
+                </option>
+              </select>
+              <span *ngIf="errorHandlingForm('recomendacion')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('recomendacion', 'required')"
+                  class="form-text text-danger">
+                  Este aplicacion es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-dosis">Dosis</label>
+              <input
+                type="number"
+                class="form-control dt-dosis"
+                id="new-dosis"
+                name="new-dosis"
+                formControlName="dosis"
+                placeholder="Ingresa dosis..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('dosis') }"
+              />
+              <span *ngIf="errorHandlingForm('dosis')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('dosis', 'required')"
+                  class="form-text text-danger">
+                  Este aplicacion es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-resultado">Resultado</label>
+              <input
+                type="text"
+                class="form-control dt-resultado"
+                id="new-resultado"
+                name="new-resultado"
+                formControlName="resultado"
+                placeholder="Ingresa resultado..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('resultado') }"
+              />
+              <span *ngIf="errorHandlingForm('resultado')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('resultado', 'required')"
+                  class="form-text text-danger">
+                  Este aplicacion es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-motivo_fallo">Motivo de fallo</label>
+              <input
+                type="text"
+                class="form-control dt-motivo_fallo"
+                id="new-motivo_fallo"
+                name="new-motivo_fallo"
+                formControlName="motivo_fallo"
+                placeholder="Ingresa motivo de fallo..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('motivo_fallo') }"
+              />
+              <span *ngIf="errorHandlingForm('motivo_fallo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('motivo_fallo', 'required')"
+                  class="form-text text-danger">
+                  Este aplicacion es requerido!
+                </small>
+              </span>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="registerForm.invalid"
+            (click)="onSubmitAdd()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

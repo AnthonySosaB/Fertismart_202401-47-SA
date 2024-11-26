@@ -1,0 +1,135 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+    <section id="faq-search-filter">
+      <div class="card faq-search" style="background-image: url('assets/images/banner/banner.png')">
+        <div class="card-body text-center">
+          <h2 class="text-primary">Respondamos algunas preguntas</h2>
+
+          <p class="card-text mb-2">o elija una categoría para encontrar rápidamente la ayuda que necesita</p>
+
+          <form class="faq-search-input">
+            <div class="input-group input-group-merge">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i data-feather="search"></i>
+                </div>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="searchText"
+                name="searchbar"
+                class="form-control"
+                placeholder="Buscar pregunta..."
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <section id="faq">
+      <div class="row nav-vertical d-flex">
+        <div class="col-md-3 mb-2 mb-md-0">
+          <ul ngbNav #navVertical="ngbNav" class="nav nav-pills flex-column nav-left">
+            <li class="nav-item" ngbNavItem *ngFor="let section of data">
+              <a
+                ngbNavLink
+                class="nav-link d-flex py-75"
+                id="section.id"
+                data-toggle="pill"
+                href="#faq"
+                aria-expanded="true"
+                role="tab"
+              >
+                <i [data-feather]="section.icon" class="font-medium-3 mr-1"></i>
+                <span class="font-weight-bold">{{ section.title }}</span>
+              </a>
+
+              <ng-template ngbNavContent>
+                <div
+                  role="tabpanel"
+                  class="tab-pane active collapse-icon"
+                  aria-expanded="true"
+                >
+                  <div class="d-flex align-items-center">
+                    <div class="avatar avatar-tag bg-light-primary mr-1">
+                      <i [data-feather]="section.icon" class="font-medium-4"></i>
+                    </div>
+                    <div>
+                      <h4 class="mb-0">{{ section.title }}</h4>
+                      <span>{{ section.subtitle }}</span>
+                    </div>
+                  </div>
+
+                  <div class="accordion collapse-margin mt-2">
+                    <ng-container *ngIf="(section.qandA | filter: searchText:'question').length; else noResults">
+                      <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" activeIds="paymentId1">
+                        <ngb-panel
+                          id="paymentId{{ i }}"
+                          [cardClass]="'collapse-margin'"
+                          *ngFor="let paymentRef of section.qandA | filter: searchText:'question'; let i = index"
+                        >
+                          <ng-template ngbPanelTitle>
+                            <span>{{ paymentRef.question }}</span>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            {{ paymentRef.ans }}
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+                    </ng-container>
+                    <ng-template #noResults>
+                      <div class="p-5 text-center">
+                        <h5 class="p-1"><i data-feather="info" size="19" class="mr-25"></i> No se encontraron resultados</h5>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <img
+              src="assets/images/illustration/faq-illustrations.svg"
+              class="img-fluid d-none d-md-block pt-5"
+              alt="demand img"
+            />
+          </ul>
+        </div>
+        <div [ngbNavOutlet]="navVertical" class="col-12 col-md-9"></div>
+      </div>
+    </section>
+
+    <section class="faq-contact">
+      <div class="row mt-5 pt-75">
+        <div class="col-12 text-center">
+          <h2>¿Aún tienes alguna pregunta?</h2>
+          <p class="mb-3">
+            Si no encuentras una pregunta en nuestras Preguntas frecuentes, siempre puedes contactarnos. ¡Te responderemos en breve!
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <div class="card text-center faq-contact-card shadow-none py-1">
+            <div class="card-body">
+              <div class="avatar avatar-tag bg-light-primary mb-2 mx-auto">
+                <i data-feather="phone-call" class="font-medium-3"></i>
+              </div>
+              <h4>998 976 436</h4>
+              <span class="text-body">Siempre estaremos encantados de ayudar!</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card text-center faq-contact-card shadow-none py-1">
+            <div class="card-body">
+              <div class="avatar avatar-tag bg-light-primary mb-2 mx-auto">
+                <i data-feather="mail" class="font-medium-3"></i>
+              </div>
+              <h4>hola@fertismart.lat</h4>
+              <span class="text-body">La mejor manera de obtener una respuesta más rápida!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

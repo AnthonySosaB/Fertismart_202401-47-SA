@@ -1,0 +1,96 @@
+<div class="slideout-content">
+  <div class="modalsd modal-slide-in sdfade edit-suelo-modal" id="modals-slide-in">
+    <div class="modal-dialog">
+      <form class="add-edit-suelo modal-content pt-0" [formGroup]="editForm">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('edit-suelo-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Editar suelo</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <div class="form-group">
+              <label class="form-label" for="edit-nombre_tipo_suelo">Nombre</label>
+              <input
+                type="text"
+                class="form-control dt-nombre_tipo_suelo"
+                id="edit-nombre_tipo_suelo"
+                name="edit-nombre_tipo_suelo"
+                formControlName="nombre_tipo_suelo"
+                placeholder="Ingresa el nombre..."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('nombre_tipo_suelo') }"
+              />
+              <span *ngIf="errorHandlingForm('nombre_tipo_suelo')" class="invalid-form">
+                <small 
+                  *ngIf="errorHandlingFormValidator('nombre_tipo_suelo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="edit-siglas_tipo_suelo">Siglas</label>
+              <input
+                type="text"
+                class="form-control dt-siglas_tipo_suelo"
+                id="edit-siglas_tipo_suelo"
+                name="edit-siglas_tipo_suelo"
+                formControlName="siglas_tipo_suelo"
+                placeholder="Ingresa siglas.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('siglas_tipo_suelo') }"
+              />
+              <span *ngIf="errorHandlingForm('siglas_tipo_suelo')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('siglas_tipo_suelo', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="new-codigo_codificado">Codificador</label>
+              <input
+                type="number"
+                class="form-control dt-codigo_codificado"
+                id="new-codigo_codificado"
+                name="new-codigo_codificado"
+                formControlName="codigo_codificado"
+                placeholder="Ingresa codificador.."
+                [ngClass]="{ 'is-invalid': errorHandlingForm('codigo_codificado') }"
+              />
+              <span *ngIf="errorHandlingForm('codigo_codificado')" class="invalid-form">
+                <small
+                  *ngIf="errorHandlingFormValidator('codigo_codificado', 'required')"
+                  class="form-text text-danger">
+                  Este campo es requerido!
+                </small>
+              </span>
+            </div>
+          </div>
+          <button 
+            type="submit" 
+            class="btn btn-primary mr-1" 
+            [disabled]="editForm.invalid"
+            (click)="onSubmitEdit()" rippleEffect>
+            Aceptar
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="onReset()"
+            rippleEffect
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

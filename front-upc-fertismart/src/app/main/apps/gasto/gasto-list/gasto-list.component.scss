@@ -1,0 +1,23 @@
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/app-user.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/base/bootstrap-extended/include'; // Bootstrap includes
+@import '@core/scss/base/plugins/charts/chart-apex';
+
+#earnings-donut-chart {
+  .apexcharts-tooltip {
+    &.apexcharts-theme-dark {
+      background: rgba($black, 0.8) !important;
+    }
+  }
+}
+
+.gastos-list-wrapper {
+    .col-actions {
+      a {
+        &:not(.dropdown-item) {
+          color: $body-color;
+        }
+      }
+    }
+  }

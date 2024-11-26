@@ -1,0 +1,154 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+    <div class="row match-height">
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="card card-congratulations">
+          <div class="card-body text-center">
+            <img src="assets/images/elements/decore-left.png" class="congratulations-img-left" alt="card-img-left" />
+            <img src="assets/images/elements/decore-right.png" class="congratulations-img-right" alt="card-img-right" />
+            <div class="avatar avatar-xl bg-primary shadow">
+              <div class="avatar-content">
+                <i data-feather="award" class="font-large-1"></i>
+              </div>
+            </div>
+            <div class="text-center">
+              <h1 class="mb-1 text-white">Bienvenido {{ currentUser?.short_name.split(' ')[0] }},</h1>
+              <p class="card-text m-auto w-85">Se puede acceder a esta página <strong>solo como {{currentUser?.rol_group[0]}}</strong>.</p>
+  
+              <p class="card-text m-auto w-85">
+                Puedes navegar en los aplicativos desde la barra lateral.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-12">
+        <div class="card earnings-card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-7">
+                <h4 class="card-title mb-1">Total de predicciones</h4>
+                <div class="font-small-2">Acertadas</div>
+                <h5 class="mb-1">{{ dashboardData.total_predicciones.completadas }}</h5>
+
+                <div class="font-small-2">Rechazadas</div>
+                <h5 class="mb-1">{{ dashboardData.total_predicciones.rechazadas }}</h5>
+
+                <p class="card-text text-muted font-small-2">
+                  <span>El detalle de recomendaciones se puede visualizar desde el modulo de recomendaciones en la barra de navegación.</span>
+                </p>
+              </div>
+              <div class="col-5" *ngIf="dashboardData.total_predicciones.completadas > 0 || dashboardData.total_predicciones.rechazadas > 0">
+                <div id="earnings-donut-chart" #earningChartRef>
+                  <apx-chart
+                    [chart]="{
+                      type: 'donut',
+                      width: earningChartRef.offsetWidth,
+                      height: 180,
+                      toolbar: {
+                        show: false
+                      }
+                    }"
+                    [dataLabels]="earningChartoptions.dataLabels"
+                    [series]="earningChartoptions.series"
+                    [legend]="earningChartoptions.legend"
+                    [labels]="earningChartoptions.labels"
+                    [stroke]="earningChartoptions.stroke"
+                    [colors]="earningChartoptions.colors"
+                    [grid]="earningChartoptions.grid"
+                    [plotOptions]="earningChartoptions.plotOptions"
+                  ></apx-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row match-height">
+      <div class="col-lg-12 col-12">
+        <div class="card card-revenue-budget">
+          <div class="row mx-0">
+            <div class="col-md-8 col-12 revenue-report-wrapper">
+              <div class="d-sm-flex justify-content-between align-items-center mb-3">
+                <h4 class="card-title mb-50 mb-sm-0">Resumen de gastos del año actual</h4>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex align-items-center">
+                    <span class="bullet bullet-warning font-small-3 mr-50 cursor-pointer"></span>
+                    <span>Gastos</span>
+                  </div>
+                </div>
+              </div>
+              <div id="revenue-report-chart" #revenueReportChartoptionsRef>
+                <apx-chart
+                  [series]="dataReportGraph.profitExpenseReport.series"
+                  [chart]="{
+                    height: 230,
+                    width:revenueReportChartoptionsRef.offsetWidth,
+                    stacked: true,
+                    type: 'bar',
+                    toolbar: { show: false }
+                  }"
+                  [plotOptions]="gastosReportChartOptions.plotOptions"
+                  [colors]="gastosReportChartOptions.colors"
+                  [dataLabels]="gastosReportChartOptions.dataLabels"
+                  [legend]="gastosReportChartOptions.legend"
+                  [grid]="gastosReportChartOptions.grid"
+                  [xaxis]="gastosReportChartOptions.xaxis"
+                  [yaxis]="gastosReportChartOptions.yaxis"
+                ></apx-chart>
+              </div>
+            </div>
+            <div class="col-md-4 col-12 budget-wrapper">
+              <div class="btn-group">
+                <div ngbDropdown>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm budget-dropdown"
+                    ngbDropdownToggle
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    ngbDropdownToggle
+                  >
+                    2024
+                  </button>
+                </div>
+              </div>
+              <h2 class="mb-25">{{ dataReportGraph.totalsData.currentExpenseMonth | currencyPeru }}</h2>
+              <div class="d-flex justify-content-center">
+                <span class="font-weight-bolder mr-25">Gasto total anual:</span>
+                <span>{{ dataReportGraph.totalsData.currentExpenseYear | currencyPeru }}</span>
+              </div>
+              <div id="budget-chart" #budgetChartoptionsRef>
+                <apx-chart
+                  [series]="dataReportGraph.budgetChart.series"
+                  [chart]="{
+                    height: 80,
+                    width: budgetChartoptionsRef.offsetWidth,
+                    toolbar: { show: false },
+                    zoom: { enabled: false },
+                    type: 'line',
+                    sparkline: { enabled: true }
+                  }"
+                  [stroke]="budgetChartoptions.stroke"
+                  [colors]="budgetChartoptions.colors"
+                  [tooltip]="budgetChartoptions.tooltip"
+                ></apx-chart>
+              </div>
+              <button type="button" 
+                class="btn btn-secondary" 
+                placement="top" 
+                disabled
+                ngbTooltip="Aún no se encuentra disponible el detalle de gastos por mes y año" 
+                rippleEffect>Ver detalle</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <section class="users-list-wrapper">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <label class="d-flex align-items-center"
+                >Mostrar
+                <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+            <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+              <label class="d-flex align-items-center ml-1 ml-md-0"
+                >Buscar:<input
+                  [(ngModel)]="searchValue"
+                  name="searchValue"
+                  type="search"
+                  class="form-control ml-25"
+                  (keyup)="filterUpdate($event)"
+                  (search)="filterUpdate($event)"
+              /></label>
+              <button *ngIf="claimMainCreateUser" 
+                class="btn btn-primary ml-1" rippleEffect (click)="toggleSidebar('new-user-sidebar')">
+                <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+                ><span class="d-none d-sm-inline-block">Agregar usuario</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ngx-datatable
+          [rows]="rows"
+          [rowHeight]="50"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+          <ngx-datatable-column name="Usuario" prop="profile.get_fullname" [width]="200">
+            <ng-template let-row="row" let-fullname="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div
+                    class="avatar mr-1 ml-0"
+                    [ngClass]="{
+                      'bg-light-success': row.is_active,
+                      'bg-light-warning': !row.is_active
+                    }"
+                  >
+                    <div class="avatar-content">{{ fullname | initials }}</div>
+                </div>
+                <div class="cell-line-height">
+                  <a routerLink="/apps/user/user-view/{{ row.id }}" class="font-medium d-block"
+                    ><span class="font-weight-bold">{{ fullname }}</span></a
+                  >
+                  <span class="text-muted font-small-2"> {{ row.username }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Doc. de Indentidad" prop="profile.num_document" [width]="200">
+            <ng-template let-row="row" let-num_document="value" ngx-datatable-cell-template>
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height">
+                  <span class="d-block">{{ num_document }}</span>
+                  <span class="text-muted font-small-2"> {{ row.profile.get_type_document_name }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Grupo Rol" prop="groups_names" [width]="100">
+            <ng-template let-groups_names="value" ngx-datatable-cell-template>
+              <div>
+                <i
+                  class="feather font-medium-3"
+                  [ngClass]="{
+                    'icon-settings text-warning': groups_names == 'Administrador',
+                    'icon-database text-success': groups_names == 'Superuser',
+                    'icon-user text-info': groups_names == 'Agricultor',
+                    'icon-slack text-danger': groups_names == 'Soporte'
+                  }"
+                ></i>
+                {{ groups_names }}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Teléfono" prop="profile.telephone" [width]="100"></ngx-datatable-column>
+          <ngx-datatable-column name="Estado" prop="is_active" [width]="50">
+            <ng-template let-status="value" ngx-datatable-cell-template>
+              <div
+                class="badge badge-pill"
+                [ngClass]="{
+                  'badge-light-success': status,
+                  'badge-light-warning': !status
+                }"
+              >
+                {{ status ? 'Activo' : 'Inactivo' }}
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Acciones" [width]="40" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div ngbDropdown container="body">
+                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                  <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                </button>
+                <div ngbDropdownMenu>
+                  <a routerLink="/apps/user/user-view/{{ row.id }}" ngbDropdownItem
+                    ><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Detalles</a
+                  ><a routerLink="/apps/user/user-edit/{{ row.id }}" ngbDropdownItem
+                    ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Editar</a
+                  ><a (click)="onDeactivateUser(row.id)" ngbDropdownItem *ngIf="row.is_active && row.id !== userSession.id"
+                    ><span [data-feather]="'user-x'" [size]="16" [class]="'mr-50'"></span> Deshabilitar</a
+                  ><a (click)="onActivateUser(row.id)" ngbDropdownItem *ngIf="!row.is_active && row.id !== userSession.id"
+                  ><span [data-feather]="'user-check'" [size]="16" [class]="'mr-50'"></span> Habilitar</a
+                  >
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+
+  <core-sidebar
+    class="modal modal-slide-in sidebar-todo-modal fade"
+    name="new-user-sidebar"
+    overlayClass="modal-backdrop">
+    <app-new-user-sidebar></app-new-user-sidebar>
+  </core-sidebar>
+</div>
